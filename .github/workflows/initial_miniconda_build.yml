@@ -1,0 +1,45 @@
+name: Build Workflows for benchmarking
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-src:
+    runs-on: ubuntu-latest
+    container:
+      image: 'trex22/initial_py311_grad_cam_py_torch-v1:latest'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            src:
+              - './src/**'
+
+      - name: Activate Conda Environment
+        if: steps.filter.outputs.src == 'true'
+        shell: bash
+        run: conda init && source /github/home/.bashrc && conda activate custom-environment
+
+      - name: Check Conda Environment Info
+        if: steps.filter.outputs.src == 'true'
+        shell: bash
+        run: source /github/home/.bashrc && conda activate custom-environment && conda info
+
+      - name: Check Conda Environment List
+        if: steps.filter.outputs.src == 'true'
+        shell: bash
+        run: source /github/home/.bashrc && conda activate custom-environment && conda list
+
+      - name: Run simple tests in Conda Environment
+        if: steps.filter.outputs.src == 'true'
+        shell: bash
+        run: cd ./src && source /github/home/.bashrc && conda activate custom-environment && python simple_test.py
