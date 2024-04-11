@@ -13,7 +13,7 @@ jobs:
   build-src:
     runs-on: ubuntu-latest
     container:
-      image: 'trex22/initial_py311_grad_cam_py_torch-v1:latest'
+      image: 'trex22/initial_py311_grad_cam_py_torch-v1'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
