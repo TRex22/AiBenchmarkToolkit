@@ -43,3 +43,6 @@ There isn't necessarily a 'best' solution when selecting hardware, frameworks, a
   - [] Pandas.profile
   - [] Pandas.line_profile
 - [] References
+
+# Useful Links
+- https://www.answer.ai/posts/2024-07-11--gpu-cpp.html
